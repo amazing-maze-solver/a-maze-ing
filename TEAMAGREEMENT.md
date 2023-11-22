@@ -48,4 +48,15 @@ Jacob Bassett
 [link](https://docs.google.com/presentation/d/11UY3ImBp9r0RJ73rItUch1eD2Ecan-k7w_Wo-GaoZ0U/edit?usp=sharing)
   
 ## Git Process
-*
+* What components of your projects will live on GitHub? 
+  * EVERYTHING
+* How will the repository be shared?
+  * Make an new organization and share ownership
+* What is your Git Flow?
+  * main
+  * dev
+    * [features]
+* End of day perform all pull requests.
+* If not ready by end of day, leave a message with an ETA.
+
+            
