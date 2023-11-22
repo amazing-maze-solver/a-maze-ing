@@ -21,4 +21,3 @@
     * use Streamlit to plot the graphs for different algorithms, its speed
     * write the methods to traverse the graph
 
-## Pitches
