@@ -41,5 +41,11 @@ Jacob Bassett
   * Listen and meet daily
 
 ## Work Plan
-
+* How will you identify tasks, assign tasks, track completions, and manage work?
+  * Use a project manager. Jira and/or Trello
+ 
+## Presentation Deck
+[link](https://docs.google.com/presentation/d/11UY3ImBp9r0RJ73rItUch1eD2Ecan-k7w_Wo-GaoZ0U/edit?usp=sharing)
+  
 ## Git Process
+*
