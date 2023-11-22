@@ -33,7 +33,12 @@ Jacob Bassett
 * How often should you take breaks?
   * Every hour a 15 minute break when working together
   * Individually no limits
-*     
+* What is the plan if we fall behind?
+  * Adjust project hours
+* What is your strategy to ensure everyone's voice is heard?
+  * Ask questions and meet daily
+* How will you ensure your team is creating a safe environment?
+  * Listen and meet daily
 
 ## Work Plan
 
