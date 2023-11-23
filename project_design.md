@@ -25,6 +25,3 @@
     * User Story: As a user, I want to see a video of the solution being made, so that I can better understand the algorithm.
     * Feature Tasks:
     * Acceptance Tests:
-
-## Domain Model:
-- [ ] Finish domain model and delete this TODO

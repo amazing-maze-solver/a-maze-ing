@@ -7,6 +7,7 @@
 1. Tests
 1. Usage
 1. Requirements
+1. Domain Model
 
 ## Description:
 - [ ] Finish description and delete this TODO.
@@ -30,3 +31,6 @@ Jacob Bassett
 
 ## File Structure:
 - [ ] Add tree structure here and delete this TODO.
+
+## Domain Model:
+- [ ] Finish domain model and delete this TODO
