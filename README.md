@@ -10,12 +10,22 @@
 1. File Structure
 1. Domain Model
 
+## External README Contents
+- [ ] Delete these files after midterm to prepare for project for resume and delete this TODO.
+
+1. [Team Agreement](team_agreement.md)
+1. [Project Ideas](project_ideas.md)
+1. [Project Design](project_design.md)
+1. [Requirements](requirements.md)
+
 ## Description:
 - [ ] Update description once finished with midterm and delete this TODO.
+
 This is a command-line interface to create and solve mazes. A client will be able to generate new mazes and save them as binary files and/or images. The client will also be able to generate a solution for a maze and save its image and/or video.
 
 ## Authors:
 KP Gomez
+
 Jacob Bassett
 
 ## Installation:
@@ -62,6 +72,7 @@ python3 main.py
 
 ## File Structure:
 - [ ] Update tree by end of midterm and delete this TODO.
+
 ```bash
 .
 ├── requirements.txt
