@@ -107,4 +107,4 @@ python3 main.py
 
 This is the basic domain model from the tutorial. 
 We will be recreating a version of this and adding new features like generating new mazes and converting the solution into a movie.
-![basic_domain_model](images/domain-model.png)
+![basic_domain_model](resources/images/domain-model.png)
