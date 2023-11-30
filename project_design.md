@@ -1,7 +1,7 @@
 # 'a-maze-ing' Project Design
 
 ## Wireframes:
-- [ ] Finish wireframes and delete this TODO
+![wireframe](images/wireframe.png)
 
 ## User Stories:
  - [ ] Update user stories after midterm finished and delete this TODO
