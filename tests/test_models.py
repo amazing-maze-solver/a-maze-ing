@@ -1,6 +1,7 @@
 import pytest
 from src.models.border import Border
 from src.models.role import Role
+from src.models.square import Square
 
 
 ################################################################################################################
@@ -8,8 +9,8 @@ from src.models.role import Role
 
 
 # @pytest.mark.skip("TODO")
-def test_role_exists():
-    assert Role
+# def test_role_exists():
+#     assert Role
 
 
 # @pytest.mark.skip("TODO")
@@ -23,8 +24,8 @@ def test_role_values():
 # Border
 
 #@pytest.mark.skip("TODO")
-def test_border_exists():
-    assert Border
+# def test_border_exists():
+#     assert Border
 
 
 #@pytest.mark.skip("TODO")
@@ -58,6 +59,25 @@ def test_intersection():
                 Border(Border.BOTTOM).intersection, Border(Border.LEFT).intersection])
 
 
+######################################################################################################################
+# Square
 
 # @pytest.mark.skip("TODO")
+def test_square_creation():
+    square = Square(1, 2, 3, Border.TOP, Role.EXIT)
+    assert square.index == 1
+    assert square.row == 2
+    assert square.column == 3
+    assert square.border is Border.TOP
+    assert square.role is Role.EXIT
+
+
 # @pytest.mark.skip("TODO")
+def test_square_immutable():
+    square = Square(1, 2, 3, Border.TOP, Role.EXIT)
+    with pytest.raises(Exception):
+        square.index = 2
+
+
+######################################################################################################################
+# Maze
