@@ -12,7 +12,7 @@ class Maze:
     """
     dataclass Maze represents maze as tuple of squares
     """
-    squares: tuple[Square]
+    squares: tuple[Square, ...]
 
     def __post_init__(self) -> None:
         """
