@@ -41,14 +41,32 @@ class Maze:
         """
         returns max width of the maze
         """
-        return max([square.row for square in self]) + 1
+        return max([square.column for square in self]) + 1
 
     @cached_property
     def height(self) -> int:
         """
         returns max height of the maze
         """
-        return max([square.column for square in self]) + 1
+        return max([square.row for square in self]) + 1
+
+    @cached_property
+    def entrance(self) -> Square:
+        """
+        returns entrance of maze
+        """
+        for square in self:
+            if square.role is Role.ENTRANCE:
+                return square
+
+    @cached_property
+    def exit(self) -> Square:
+        """
+        returns exit of maze
+        """
+        for square in self:
+            if square.role is Role.EXIT:
+                return square
 
 
 def validate_maze_entrance(maze: Maze) -> None:
@@ -94,22 +112,24 @@ def validate_maze_rows_and_columns(maze: Maze) -> None:
             assert square.column == j, f"maze square at {i, j} contains invalid column value"
 
 
-if __name__ == "__main__":
-    from src.models.border import Border
-    maze = Maze(
-         squares=(
-             Square(0, 0, 0, Border.TOP | Border.LEFT),
-             Square(1, 0, 1, Border.TOP | Border.RIGHT),
-             Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
-             Square(3, 0, 3, Border.TOP | Border.LEFT | Border.RIGHT),
-             Square(4, 1, 0, Border.BOTTOM | Border.LEFT | Border.RIGHT),
-             Square(5, 1, 1, Border.LEFT | Border.RIGHT),
-             Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
-             Square(7, 1, 3, Border.RIGHT),
-             Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
-             Square(9, 2, 1, Border.BOTTOM),
-             Square(10, 2, 2, Border.TOP | Border.BOTTOM),
-             Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
-         )
-     )
-    # print(maze.length)
+# if __name__ == "__main__":
+#     from src.models.border import Border
+#     maze = Maze(
+#          squares=(
+#              Square(0, 0, 0, Border.TOP | Border.LEFT),
+#              Square(1, 0, 1, Border.TOP | Border.RIGHT),
+#              Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
+#              Square(3, 0, 3, Border.TOP | Border.LEFT | Border.RIGHT),
+#              Square(4, 1, 0, Border.BOTTOM | Border.LEFT | Border.RIGHT),
+#              Square(5, 1, 1, Border.LEFT | Border.RIGHT),
+#              Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
+#              Square(7, 1, 3, Border.RIGHT),
+#              Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
+#              Square(9, 2, 1, Border.BOTTOM),
+#              Square(10, 2, 2, Border.TOP | Border.BOTTOM),
+#              Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
+#          )
+#      )
+    # print("width", maze.width)
+    # print("height", maze.height)
+    # print(maze.exit)
