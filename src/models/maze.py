@@ -1,10 +1,11 @@
 from dataclasses import dataclass
 from functools import cached_property
-from typing import Iterator
 from pathlib import Path
+from typing import Iterator
 
 from src.models.role import Role
 from src.models.square import Square
+from src.persistence.serializer import write_binary_maze_file
 
 
 @dataclass(frozen=True)
@@ -68,6 +69,11 @@ class Maze:
             if square.role is Role.EXIT:
                 return square
 
+    def write_file(self, path: Path) -> None:
+        """
+        Accepts file path object and writes maze as binary file.
+        """
+        write_binary_maze_file(path, self.squares, self.width, self.height)
 
 def validate_maze_entrance(maze: Maze) -> None:
     """
