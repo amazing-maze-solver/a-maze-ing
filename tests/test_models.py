@@ -1,7 +1,13 @@
 import pytest
+from collections.abc import Iterable
+
+
 from src.models.border import Border
+from src.models.maze import Maze
 from src.models.role import Role
+from src.models.solution import Solution
 from src.models.square import Square
+
 
 
 ################################################################################################################
@@ -81,3 +87,91 @@ def test_square_immutable():
 
 ######################################################################################################################
 # Maze
+
+# @pytest.mark.skip("TODO")
+def test_maze_creation():
+    maze = Maze(
+         squares=(
+             Square(0, 0, 0, Border.TOP | Border.LEFT),
+             Square(1, 0, 1, Border.TOP | Border.RIGHT),
+             Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
+             Square(3, 0, 3, Border.TOP | Border.LEFT | Border.RIGHT),
+             Square(4, 1, 0, Border.BOTTOM | Border.LEFT | Border.RIGHT),
+             Square(5, 1, 1, Border.LEFT | Border.RIGHT),
+             Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
+             Square(7, 1, 3, Border.RIGHT),
+             Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
+             Square(9, 2, 1, Border.BOTTOM),
+             Square(10, 2, 2, Border.TOP | Border.BOTTOM),
+             Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
+         )
+     )
+    assert isinstance(maze, Maze)
+
+# @pytest.mark.skip("TODO")
+def test_maze_method():
+    maze = Maze(
+         squares=(
+             Square(0, 0, 0, Border.TOP | Border.LEFT),
+             Square(1, 0, 1, Border.TOP | Border.RIGHT),
+             Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
+             Square(3, 0, 3, Border.TOP | Border.LEFT | Border.RIGHT),
+             Square(4, 1, 0, Border.BOTTOM | Border.LEFT | Border.RIGHT),
+             Square(5, 1, 1, Border.LEFT | Border.RIGHT),
+             Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
+             Square(7, 1, 3, Border.RIGHT),
+             Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
+             Square(9, 2, 1, Border.BOTTOM),
+             Square(10, 2, 2, Border.TOP | Border.BOTTOM),
+             Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
+         )
+     )
+    # testing width property
+    assert maze.width == 4
+    # testing height property
+    assert maze.height == 3
+    # testing subscriptable
+    assert maze[3].row == 0
+    # testing entrance property
+    assert maze.entrance.role is Role.ENTRANCE
+    # testing exit property
+    assert maze.exit.role is Role.EXIT
+
+
+#######################################################################################################################
+# Solution
+
+# @pytest.mark.skip("TODO")
+def test_solution_creation():
+    solution = Solution(
+        squares = (
+            Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
+            Square(9, 2, 1, Border.BOTTOM),
+            Square(10, 2, 2, Border.TOP | Border.BOTTOM),
+            Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
+            Square(7, 1, 3, Border.RIGHT),
+            Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
+            Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
+        )
+    )
+    assert isinstance(solution, Solution)
+
+# @pytest.mark.skip("TODO")
+def test_solution_methods():
+    solution = Solution(
+        squares = (
+            Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
+            Square(9, 2, 1, Border.BOTTOM),
+            Square(10, 2, 2, Border.TOP | Border.BOTTOM),
+            Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
+            Square(7, 1, 3, Border.RIGHT),
+            Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
+            Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
+        )
+    )
+    assert len(solution) == 7
+    assert isinstance(solution, Iterable)
+    assert solution[3].index == 11
+
+# TODO: When we have functionality to create solution from maze, write unit test here to compare with solution
+
