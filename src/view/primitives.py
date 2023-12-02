@@ -2,8 +2,22 @@ from dataclasses import dataclass
 from typing import NamedTuple, Protocol
 
 
-def tag(name: str, value: str|None = None, **attribute):
-    pass
+def tag(name: str, value: str | None = None, **attr):
+    """
+    Input name of xml element, value to be contained in xml element, and any xml attributes.
+    :param name: str
+    :param value: str
+    :param attribute: dict
+    :return: xml as str
+    """
+    attribute = (
+        ""
+        if not attr else
+        " " + " ".join(f"{name.replace('-','_')}='{value}'" for name, value in attr.items()) )
+    if value is not None:
+        return f"<{name} {attribute}>{value}</{name}>"
+    else:
+        return f"<{name} {attribute}></{name}>"
 
 
 class NullPrimitive:
@@ -56,9 +70,27 @@ class Line(NamedTuple):
 
     def draw(self, **attribute):
         """
-        Translate x and y coordinate for point.
+        Convert data into svg string.
         """
-        return tag("line", x1 = self.start.x, y1 = self.start.y, x2 = self.end.x, y2 = self.end.y, **attribute)
+        return tag("line", x1=self.start.x, y1=self.start.y, x2=self.end.x, y2=self.end.y, **attribute)
+
+
+class Polyline(tuple[Point,...]):
+    """
+    Class of connected lines that will not connect to make a complete shape.
+    """
+    def draw(self, **attributes):
+        """
+        Convert data into svg string.
+        """
+        points = " ".join(point.draw() for point in self)
+        return tag("polyline", points=points, **attributes)
+
+
+class Polygon(tuple[Point,...]):
+    """
+
+    """
 
 
 
