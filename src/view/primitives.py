@@ -17,7 +17,7 @@ def tag(name: str, value: str | None = None, **attr):
     if value is not None:
         return f"<{name} {attribute}>{value}</{name}>"
     else:
-        return f"<{name} {attribute}></{name}>"
+        return f"<{name} {attribute} />"
 
 
 class NullPrimitive:
@@ -75,11 +75,11 @@ class Line(NamedTuple):
         return tag("line", x1=self.start.x, y1=self.start.y, x2=self.end.x, y2=self.end.y, **attribute)
 
 
-class Polyline(tuple[Point,...]):
+class Polyline(tuple[Point, ...]):
     """
     Class of connected lines that will not connect to make a complete shape.
     """
-    def draw(self, **attributes):
+    def draw(self, **attributes) -> str:
         """
         Convert data into svg string.
         """
@@ -87,12 +87,54 @@ class Polyline(tuple[Point,...]):
         return tag("polyline", points=points, **attributes)
 
 
-class Polygon(tuple[Point,...]):
+class Polygon(tuple[Point, ...]):
     """
-
+    Collection of connected lines whose ends must meet.
     """
+    def draw(self, **attributes) -> str:
+        points = " ".join(point.draw() for point in self)
+        return tag("polygon", points=points, **attributes)
 
 
+class DisjointedLines(tuple[Line, ...]):
+    """
+    Class DisjointedLines used to render corridors.
+    """
+    def draw(self, **attributes) -> str:
+        return "".join(line.draw(**attributes) for line in self)
+
+
+@dataclass
+class Rect:
+    """
+    Dataclass to create a rectangle object.
+    """
+    top_left: Point | None = None
+
+    def draw(self, **attributes) -> str:
+        """
+        Returns an xml element of a rectangle.
+        """
+        if self.top_left:
+            attrs = attributes | {"x": self.top_left.x, "y": self.top_left.y}
+        else:
+            attrs = attributes
+        return tag("rect", **attrs)
+
+
+@dataclass(frozen=True)
+class Text:
+    """
+    Dataclass element to create text elements of squares
+    """
+    content: str
+    point: Point
+
+    def draw(self, **attributes) -> str:
+        """
+        Returns an xml element of text.
+        """
+        return tag("text", self.content, x=self.point.x, y=self.point.y, **attributes)
 
 
 
