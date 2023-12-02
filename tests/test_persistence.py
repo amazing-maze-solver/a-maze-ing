@@ -6,14 +6,21 @@ from src.models.border import Border
 from src.models.maze import Maze
 from src.models.role import Role
 from src.models.square import Square
-from src.persistence.serializer import compress, write_binary_maze_file
+from src.persistence.serializer import compress, decompress
 
 
 # @pytest.mark.skip("TODO")
 def test_compress():
     square = Square(0, 0, 0, Border.TOP, Role.ENTRANCE)
     actual = compress(square)
-    assert actual == 17
+    assert actual == 33
+
+
+# @pytest.mark.skip("TODO")
+def test_decompress():
+    border, role = decompress(47) # 00101111
+    assert border is (Border.TOP | Border.RIGHT | Border.BOTTOM | Border.LEFT)
+    assert role is Role.ENTRANCE
 
 
 # @pytest.mark.skip()
@@ -22,13 +29,24 @@ def test_write_binary_maze_file(create_maze):
     path = Path.cwd().joinpath("resources/mazes/test.maze")
     maze.write_file(path)
     if not path.exists():
-        assert False
+        assert False, "Maze write_file method broken."
     else:
         path.unlink()
 
 
+# @pytest.mark.skip()
+def test_reading_binary_maze_file(create_maze):
+    maze_expected = create_maze
+    path = Path.cwd().joinpath("resources/mazes/test.maze")
+    maze_expected.write_file(path)
+    maze_actual = Maze.read_file(path)
+    path.unlink()
+    assert maze_expected == maze_actual, "Maze read_file method broken."
+
+
 @pytest.fixture
 def create_maze():
+    # miniature.maze
     maze = Maze(
         squares=(
             Square(0, 0, 0, Border.TOP | Border.LEFT),
@@ -45,5 +63,4 @@ def create_maze():
             Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
         )
     )
-    # print(isinstance(maze, Maze))
     return maze
