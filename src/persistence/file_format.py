@@ -17,12 +17,22 @@ class FileHeader:
     width: int
     height: int
 
+    @classmethod
+    def read(cls, file: BinaryIO):
+        """
+        Input file path to create instance of fileheader from binary maze file.
+        """
+        assert(file.read(len(MAGIC_NUMBER)) == MAGIC_NUMBER), "Unknown file type"
+        (format_version, ) = struct.unpack("B", file.read(1))
+        width, height = struct.unpack("<2I", file.read(8))
+        return cls(format_version, width, height)
+
     def write(self, file: BinaryIO) -> None:
         """
         Input file to write header to binary maze file.
         """
         file.write(MAGIC_NUMBER)
-        file.write(struct.pack("B"), self.format_version)
+        file.write(struct.pack("B", self.format_version))
         file.write(struct.pack("<2I", self.width, self.height))
 
 

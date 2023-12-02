@@ -37,6 +37,7 @@ class Solution:
         """
         return len(self.squares)
 
+
 def validate_solution_corridor(solution) -> None:
     p1, p2 = 0, 1
     solution_length = len(solution)
