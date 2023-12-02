@@ -24,7 +24,7 @@ class FileHeader:
         """
         assert(file.read(len(MAGIC_NUMBER)) == MAGIC_NUMBER), "Unknown file type"
         (format_version, ) = struct.unpack("B", file.read(1))
-        width, height = struct.unpack("<2I", file.read(8))
+        width, height = struct.unpack("<2I", file.read(2*4))
         return cls(format_version, width, height)
 
     def write(self, file: BinaryIO) -> None:
@@ -42,6 +42,16 @@ class FileBody:
     Dataclass to create binary file body for maze.
     """
     square_values: array.array
+
+    @classmethod
+    def read(cls, header: FileHeader, file: BinaryIO) -> "FileBody":
+        """
+        Reads maze binary file and returns FileBody.
+        :param header: FileHeader
+        :param file: BinaryIO
+        :return: FileBody
+        """
+        return cls(array.array("B", file.read(header.width * header.height)))
 
     def write(self, file: BinaryIO) -> None:
         """

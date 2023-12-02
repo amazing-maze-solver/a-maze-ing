@@ -5,7 +5,7 @@ from typing import Iterator
 
 from src.models.role import Role
 from src.models.square import Square
-from src.persistence.serializer import write_binary_maze_file
+from src.persistence.serializer import write_binary_maze_file, load_binary_maze_file
 
 
 @dataclass(frozen=True)
@@ -75,6 +75,14 @@ class Maze:
         """
         write_binary_maze_file(path, self.squares, self.width, self.height)
 
+    @classmethod
+    def read_file(cls, path: Path) -> "Maze":
+        """
+        Input file path and output maze instance with data from binary maze file.
+        :param path:
+        :return:
+        """
+        return Maze(tuple(load_binary_maze_file(path))) # TODO: switch Maze to cls
 
 def validate_maze_entrance(maze: Maze) -> None:
     """

@@ -21,7 +21,7 @@ from src.models.square import Square
 
 # @pytest.mark.skip("TODO")
 def test_role_values():
-    variable_list = ["NONE", "ENTRANCE", "EXIT", "WALL", "EXTERIOR"]
+    variable_list = ["NONE", "ENEMY", "ENTRANCE", "EXIT", "EXTERIOR", "REWARD", "WALL"]
     for index, name in enumerate(variable_list):
         assert Role[name] == index
 
