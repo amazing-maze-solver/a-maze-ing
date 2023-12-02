@@ -75,6 +75,7 @@ class Maze:
         """
         write_binary_maze_file(path, self.squares, self.width, self.height)
 
+
 def validate_maze_entrance(maze: Maze) -> None:
     """
     raises exception if maze doesn't have exactly one entrance
