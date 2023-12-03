@@ -1,4 +1,8 @@
 import pytest
+import random
+
+from src.models.border import Border
+from src.view.decomposer import decompose
 from src.view.primitives import NullPrimitive, Point, Line, Polyline, Polygon, DisjointedLines, Rect, Text
 
 
@@ -57,6 +61,69 @@ def test_text(create_text):
     actual = create_text.draw(a=1, b=2)
     expected = "<text  x='1' y='1' a='1' b='2'>🚶</text>"
     assert actual == expected
+
+########################################################################################################################
+# decomposer
+
+
+# @pytest.mark.skip()
+def test_single_border(create_borders, create_point):
+    random_index = random.randint(0, len(create_borders) - 1)
+    random_border = create_borders[random_index]
+    actual = decompose(random_border, create_point, 1)
+    assert isinstance(actual, Line)
+
+
+# @pytest.mark.skip()
+def test_disjointed_borders(create_borders, create_point):
+    top_bottom = Border.TOP | Border.BOTTOM
+    left_right = Border.LEFT | Border.RIGHT
+    disjointed_borders = [top_bottom, left_right]
+    random_borders = random.choice(disjointed_borders)
+    actual = decompose(random_borders, create_point, 1)
+    assert isinstance(actual, DisjointedLines)
+
+
+# @pytest.mark.skip()
+def test_corner(create_borders, create_point):
+    top_right = Border.TOP | Border.RIGHT
+    bottom_right = Border.RIGHT | Border.BOTTOM
+    bottom_left = Border.BOTTOM | Border.LEFT
+    top_left = Border.LEFT | Border.TOP
+
+    corners = [top_right, bottom_right, bottom_left, top_left]
+    random_corner = random.choice(corners)
+    actual = decompose(random_corner, create_point, 1)
+    assert isinstance(actual, Polyline)
+
+
+# @pytest.mark.skip()
+def test_dead_end(create_borders, create_point):
+    top_right_bottom = Border.TOP | Border.RIGHT | Border.BOTTOM
+    right_bottom_left = Border.RIGHT | Border.BOTTOM | Border.LEFT
+    bottom_left_top = Border.BOTTOM | Border.LEFT | Border.TOP
+    left_top_right = Border.LEFT | Border.TOP | Border.RIGHT
+
+    dead_ends = [top_right_bottom, right_bottom_left, bottom_left_top, left_top_right]
+    random_dead_end = random.choice(dead_ends)
+    actual = decompose(random_dead_end, create_point, 1)
+    assert isinstance(actual, Polyline)
+
+
+# @pytest.mark.skip()
+def test_four_borders(create_borders, create_point):
+    borders = Border.TOP | Border.RIGHT | Border.BOTTOM | Border.LEFT
+    actual = decompose(borders, create_point, 1)
+    assert isinstance(actual, Polygon)
+
+
+@pytest.fixture
+def create_borders():
+    return Border.TOP, Border.RIGHT, Border.BOTTOM, Border.LEFT
+
+@pytest.fixture
+def create_point():
+    return Point(1, 1)
 
 
 @pytest.fixture
