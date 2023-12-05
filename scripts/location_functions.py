@@ -1,6 +1,7 @@
 import time
 from pathlib import Path
 import json
+import re
 import argparse
 
 from src.solve.solver import solve
@@ -18,7 +19,6 @@ from scripts.location_classes import (
 )
 
 sleep_in_seconds = 0.2
-
 
 def sleep(multiple):
     """"""

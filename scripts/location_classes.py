@@ -148,17 +148,32 @@ class SaveMazeMixin:
     def action(self):
         try:
             self.status_update()
+            # if user doesn't have maze to save, take back to main
+            if self.maze is None:
+                console.print("Must have maze to save first.", style="red")
+                return self.transfer_maze_and_or_solution(self, self.maze, self.solution)
             root_dir = Path.cwd()
             maze_dir = root_dir.joinpath("resources", "mazes")
             console.print(self.message_prompt, style="green")
             console.print(r'Must avoid the following characters: <>:"/\.|?*', style="white")
-            input_str = Prompt.ask("Input file name here")
+            console.print("[1] Cancel")
+            input_str = Prompt.ask("Input here")
+            # if user wishes to cancel
+            if input_str == "1":
+                return self.transfer_maze_and_or_solution(
+                    self.locations.get(self.previous_location), self.maze, self.solution)
+            # if filename is valid proceed
             if is_valid_filename(input_str):
                 path = maze_dir.joinpath(f"{input_str}.maze")
+                # if filename already exists take user back to main
+                if path.exists():
+                    console.print("File exists already. Please choose another filename.", style="red")
+                    return self.transfer_maze_and_or_solution(self, self.maze, self.solution)
                 self.maze.write_file(path)
                 console.print(f"{input_str} was successfully saved!", style="green")
                 return self.transfer_maze_and_or_solution(
                     self.locations.get(self.previous_location), self.maze, self.solution)
+            # if file name is invalid, take user back to main
             else:
                 console.print("Invalid file name please try again.", style="red")
                 return self.transfer_maze_and_or_solution(self, self.maze, self.solution)
@@ -167,17 +182,6 @@ class SaveMazeMixin:
             console.print(f"{error}", style="red")
             return self.transfer_maze_and_or_solution(
                 self.locations.get(self.previous_location), self.maze, self.solution)
-
-
-def is_valid_filename(filename: str) -> bool:
-    try:
-        Path(filename)
-        if re.search(r"[<*>?:/\.|]", filename):
-            return False
-        else:
-            return True
-    except (OSError, ValueError):
-        return False
 
 
 class SolveMazeMixin:
@@ -237,3 +241,15 @@ class GoodByeMixin:
     def action(self):
         console.print(self, style="magenta")
         return self
+
+
+
+def is_valid_filename(filename: str) -> bool:
+    try:
+        Path(filename)
+        if re.search(r"[<*>?:/\.|]", filename):
+            return False
+        else:
+            return True
+    except (OSError, ValueError):
+        return False
