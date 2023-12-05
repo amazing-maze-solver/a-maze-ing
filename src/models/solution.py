@@ -13,7 +13,7 @@ class Solution:
     squares: tuple[Square, ...]
 
     def __post_init__(self):
-        validate_solution_corridor(self)
+        # validate_solution_corridor(self)
         assert self.squares[0].role is Role.ENTRANCE, "Solution must start with entrance."
         assert self.squares[-1].role is Role.EXIT, "Solution must end with exit."
 
