@@ -163,8 +163,8 @@
     "previous_location": "main",
     "next_location": "save_maze",
     "value": {
-      "module": "",
-      "callable": ""
+      "module": "src.solve.solver",
+      "callable": "solve"
     },
     "parameters": {}
   },

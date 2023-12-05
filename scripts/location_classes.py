@@ -57,8 +57,8 @@ class Location:
 
     def status_update(self):
         location_str = self.location.replace("_", " ").title()
-        maze_exists = "\n[√]maze" if self.maze is not None else ""
-        solution_exists = "\n[√]solution" if self.solution is not None else ""
+        maze_exists = "\n[√] maze" if self.maze is not None else ""
+        solution_exists = "\n[√] solution" if self.solution is not None else ""
         console.print(f"Location: {location_str}{maze_exists}{solution_exists}", style="green")
 
 
@@ -186,9 +186,23 @@ class SaveMazeMixin:
 
 class SolveMazeMixin:
     def action(self):
-        self.status_update()
-        return self.transfer_maze_and_or_solution(
-            self.locations.get(self.previous_location), self.maze, self.solution)
+        try:
+            self.status_update()
+            # if maze doesn't exist, pass back to main location
+            if self.maze is None:
+                console.print("Must have maze to save first.", style="red")
+                return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze, self.solution)
+            # generate new solution and pass back to main location
+            location_callable = self.import_callable(self.value.get("module"),self.value.get("callable"))
+            solution = location_callable(self.maze)
+            console.print("Solution successfully created", style="green")
+            return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze,
+                                                      solution or None)
+        except Exception as error:
+            console.print("Something went wrong, please look under the hood and try again.", style="red")
+            console.print(f"{error}", style="red")
+            return self.transfer_maze_and_or_solution(
+                self.locations.get(self.previous_location), self.maze, self.solution)
 
 
 class TransitMixin:
