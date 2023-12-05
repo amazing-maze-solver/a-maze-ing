@@ -17,9 +17,12 @@ ROLE_EMOJI = {
     Role.REWARD: "\N{white medium star}",
 }
 
+
 @dataclass(frozen=True)
 class SVG:
-    """"""
+    """
+
+    """
 
     xml_content: str
 
@@ -27,7 +30,7 @@ class SVG:
     def html_content(self) -> str:
         """"""
         return textwrap.dedent(
-            f"""\
+            """\
                 <!DOCTYPE html>
                 <html lang="en">
                 <head>
@@ -36,13 +39,18 @@ class SVG:
                   <title>SVG Preview</title>
                 </head>
                 <body>
-                {self.xml_content}
+                {0}
                 </body>
-                </html>""")
+                </html>""").format(self.xml_content)
 
     def preview(self) -> None:
-        """"""
-        pass
+        """
+        Takes xml content from class instance, opens a temporary file, calls html_content method to convert xml to html,
+        writes to file, opens browser
+        """
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", suffix=".html", delete=False) as file:
+            file.write(self.html_content)
+        webbrowser.open(f"file://{file.name}")
 
 
 @dataclass(frozen=True)
@@ -56,12 +64,11 @@ class SVGRenderer:
         """"""
         return self.line_width // 2
 
-
     def render(self, maze: Maze, solution: Solution | None = None) -> SVG:
         """"""
-        margin = (self.offset + self.line_width)
-        width = 2 * margin + maze.width * self.square_size
-        height = 2 * margin + maze.height * self.square_size
+        margin = 2 * (self.offset + self.line_width)
+        width = margin + maze.width * self.square_size
+        height = margin + maze.height * self.square_size
 
         return SVG(
             tag("svg",
@@ -76,7 +83,8 @@ class SVGRenderer:
         """"""
         return "".join([
             background(),
-            *map(self._draw_square, maze)
+            *map(self._draw_square, maze),
+            self._draw_solution(solution) if solution is not None else ""
         ])
 
     def _draw_square(self, square: Square) -> str:
@@ -84,33 +92,128 @@ class SVGRenderer:
         top_left = self._transform(square)
         collective_xml = []
         if square.role is Role.EXTERIOR:
-            exterior_xml = ... #TODO
+            exterior_xml = exterior(top_left, self.square_size, self.line_width)
             collective_xml.append(exterior_xml)
         elif square.role is Role.WALL:
-            wall_xml = ... #TODO
+            wall_xml = wall(top_left, self.square_size, self.line_width)
             collective_xml.append(wall_xml)
         elif emoji := ROLE_EMOJI.get(square.role):
-            emoji_xml = ... #TODO
+            emoji_xml = label(emoji, top_left, self.square_size//2)
             collective_xml.append(emoji_xml)
         border_xml = self._draw_border(square, top_left)
         collective_xml.append(border_xml)
         return "".join(collective_xml)
 
+    def _draw_solution(self, solution: Solution) -> str:
+        """
+
+        """
+        return Polyline([self._transform(square, extra_offset=self.square_size//2) for square in solution]).draw(
+            stroke_width=self.line_width * 2,
+            stroke_opacity="50%",
+            stroke="red",
+            fill="none",
+            marker_end="url(#arrow)",
+        )
+
     def _transform(self, square: Square, extra_offset: int=0) -> Point:
         """
         """
-        x = square.row * self.square_size
-        y = square.column * self.square_size
-        top_left_point = Point(x, y).translate(self.offset+extra_offset, self.offset+extra_offset)
+        x = square.column * self.square_size
+        y = square.row * self.square_size
+        top_left_point = Point(x, y).translate(offset_x=self.offset+extra_offset, offset_y=self.offset+extra_offset)
         return top_left_point
 
     def _draw_border(self, square: Square, point: Point) -> str:
-        """"""
-        return decompose(square.border, point, self.square_size).draw(stroke_width=self.line_width, stroke="black", fill="none")
+        """
 
-
+        """
+        return decompose(square.border, point, self.square_size).draw(
+            stroke_width=self.line_width,
+            stroke="black",
+            fill="none")
 
 
 def background():
     """"""
     return Rect().draw(width="100%", height="100%", fill="white")
+
+
+def exterior(top_left: Point, size: int, line_width: int) -> str:
+    """
+
+    """
+    return Rect(top_left).draw(
+        width=size,
+        height=size,
+        stroke_width=line_width,
+        stroke="none",
+        fill="white",)
+
+
+def wall(top_left: Point, size: int, line_width: int) -> str:
+    """
+
+    """
+    return Rect(top_left).draw(
+        width=size,
+        height=size,
+        stroke_width=line_width,
+        stroke="none",
+        fill="lightgray", )
+
+
+def label(emoji: str, top_left: Point, off_set: int) -> str:
+    """
+
+    """
+    return Text(emoji, top_left.translate(offset_x=off_set, offset_y=off_set)).draw(
+        font_size=f"{off_set}px",
+        text_anchor="middle",
+        dominant_baseline="middle",
+    )
+
+
+
+# if __name__ == "__main__":
+#     from pathlib import Path
+#     from src.models.border import Border
+#
+#     maze = Maze(
+#         squares=(
+#             Square(0, 0, 0, Border.TOP | Border.LEFT),
+#             Square(1, 0, 1, Border.TOP | Border.RIGHT),
+#             Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
+#             Square(3, 0, 3, Border.TOP | Border.LEFT | Border.RIGHT),
+#             Square(4, 1, 0, Border.BOTTOM | Border.LEFT | Border.RIGHT),
+#             Square(5, 1, 1, Border.LEFT | Border.RIGHT),
+#             Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
+#             Square(7, 1, 3, Border.RIGHT),
+#             Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
+#             Square(9, 2, 1, Border.BOTTOM),
+#             Square(10, 2, 2, Border.TOP | Border.BOTTOM),
+#             Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
+#         )
+#     )
+#
+#     solution_f = Solution(squares=tuple(maze[i] for i in (8, 11, 7, 6, 2)))
+#     solution_t = Solution(squares=tuple(maze[i] for i in (8, 9, 10, 11, 7, 6, 2)))
+#     svg = SVGRenderer().render(maze, solution_f)
+#     svg.preview()
+
+    # with Path("maze.svg").open(mode="w", encoding="utf-8") as file:
+    #     file.write(svg.xml_content)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -14,9 +14,9 @@ def decompose(border: Border, top_left: Point, square_size: int) -> Primitive:
     """
     Will return instance of square shape based on square border
     """
-    top_right = top_left.translate(square_size)
-    bottom_right = top_left.translate(square_size, square_size)
-    bottom_left = top_left.translate(square_size)
+    top_right = top_left.translate(offset_x=square_size)
+    bottom_right = top_left.translate(offset_x=square_size, offset_y=square_size)
+    bottom_left = top_left.translate(offset_y=square_size)
 
     top = Line(top_left, top_right)
     right = Line(top_right, bottom_right)

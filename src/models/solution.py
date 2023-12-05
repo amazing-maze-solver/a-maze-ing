@@ -1,10 +1,8 @@
 from dataclasses import dataclass
-from functools import cached_property
 from typing import Iterator
 
 from src.models.role import Role
 from src.models.square import Square
-
 
 
 @dataclass(frozen=True)
@@ -44,14 +42,13 @@ def validate_solution_corridor(solution) -> None:
     while p2 < solution_length:
         square1 = solution[p1]
         square2 = solution[p2]
-        if (square1.row == square2.row and abs(square1.column-square2.column)==1) or (square1.column == square2.column and abs(square1.row-square2.row)==1):
+        if ((square1.row == square2.row and abs(square1.column-square2.column) == 1) or
+                (square1.column == square2.column and abs(square1.row-square2.row) == 1)):
             p1 += 1
             p2 += 1
             continue
         else:
             assert False, "Solution must have a corridor from start to exit square."
-            break
-
 
 
 # if __name__ == "__main__":
@@ -76,10 +73,3 @@ def validate_solution_corridor(solution) -> None:
 #      )
 #
 #     solution = Solution(squares=tuple(maze[i] for i in (8, 9, 10, 11, 7, 6, 2)))
-
-    # for square in solution:
-    #     print(square)
-
-    # print(solution[3])
-
-    # print(len(solution))
