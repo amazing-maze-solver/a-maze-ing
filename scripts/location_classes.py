@@ -74,7 +74,7 @@ class Location:
         maze_exists = "\n[√] maze" if self.maze is not None else ""
         solution_exists = "\n[√] solution" if self.solution is not None else ""
         svg_exists = "\n[√] image" if self.svg is not None else ""
-        console.print(f"Location: {location_str}{maze_exists}{solution_exists}{svg_exists}", style="green")
+        console.print(f"Location: {location_str}{maze_exists}{solution_exists}{svg_exists}", style="white")
 
     def prompt_for_path(self) -> Path:
         console.print(self.message_prompt, style="green")
@@ -123,6 +123,7 @@ class CreateMazeMixin:
                     input_dict[value.get("kwarg")] = input_callable
             # create maze
             maze = location_callable(**input_dict)
+            console.print("Successfully created new maze!", style="yellow")
             return self.transfer_maze_and_or_solution(self.locations.get("main"), maze, None, None)
         except Exception as error:
             console.print("Something went wrong, please look under the hood and try again.", style="red")
@@ -153,12 +154,12 @@ class LoadMazeMixin:
             input_index = int(Prompt.ask("Choose by number", choices=options, show_choices=False))-1
             input_path = maze_paths[input_index]
             if str(input_path.name) == "Cancel":
-                console.print("Leaving Load Maze.", style="green")
+                console.print("Leaving Load Maze.", style="yellow")
                 return self.transfer_maze_and_or_solution(
                     self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
             maze = Maze.read_file(input_path) or self.maze
             return self.transfer_maze_and_or_solution(
-                self.locations.get(self.previous_location), maze, self.solution, self.svg)
+                self.locations.get(self.previous_location), maze, None, None)
         except Exception as error:
             console.print("Something went wrong, please look under the hood and try again.", style="red")
             console.print(f"{error}", style="red")
@@ -172,7 +173,7 @@ class SaveMazeMixin:
             self.status_update()
             # if user doesn't have maze to save, take back to main
             if self.maze is None:
-                console.print("Must have maze to save first.", style="red")
+                console.print("Must have maze to save first.", style="yellow")
                 return self.transfer_maze_and_or_solution(
                     self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
             root_dir = Path.cwd()
@@ -187,15 +188,15 @@ class SaveMazeMixin:
                 path = maze_dir.joinpath(f"{input_str}.maze")
                 # if filename already exists take user back to main
                 if path.exists():
-                    console.print("File exists already. Please choose another filename.", style="red")
+                    console.print("File exists already. Please choose another filename.", style="yellow")
                     return self.transfer_maze_and_or_solution(self, self.maze, self.solution, self.svg)
                 self.maze.write_file(path)
-                console.print(f"{input_str} was successfully saved!", style="green")
+                console.print(f"{input_str} was successfully saved!", style="yellow")
                 return self.transfer_maze_and_or_solution(
                     self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
             # if file name is invalid, take user back to main
             else:
-                console.print("Invalid file name please try again.", style="red")
+                console.print("Invalid file name please try again.", style="yellow")
                 return self.transfer_maze_and_or_solution(self, self.maze, self.solution, self.svg)
         except Exception as error:
             console.print("Something went wrong, please look under the hood and try again.", style="red")
@@ -210,12 +211,12 @@ class SolveMazeMixin:
             self.status_update()
             # if maze doesn't exist, pass back to main location
             if self.maze is None:
-                console.print("Must have maze to save first.", style="red")
+                console.print("Must have maze to save first.", style="yellow")
                 return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
             # generate new solution and pass back to main location
             location_callable = self.import_callable(self.value.get("module"),self.value.get("callable"))
             solution = location_callable(self.maze)
-            console.print("Solution successfully created", style="green")
+            console.print("Solution successfully created", style="yellow")
             return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze,
                                                       solution or None, None)
         except Exception as error:
@@ -258,7 +259,7 @@ class ViewMazeMixin:
                         self.locations.get("save_image"), self.maze, self.solution, self.svg)
             # if maze doesn't exist, pass back to main location
             if self.maze is None:
-                console.print("Must have maze to save first.", style="red")
+                console.print("Must have maze to save first.", style="yellow")
                 return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze,
                                                           self.solution, self.svg)
             # generate new solution and pass back to main location
@@ -266,7 +267,7 @@ class ViewMazeMixin:
             if self.solution is None:
                 svg = location_callable().render(self.maze)
             else:
-                console.print("Would you like to include the solution in the image?")
+                console.print("Would you like to include the solution in the image?", style="green")
                 console.print("[1] Yes\n[2] No\n[3] Cancel", style="white")
                 input_str = Prompt.ask("Choose by number", choices=["1","2"], show_choices=False)
                 if input_str == "1":
@@ -277,7 +278,7 @@ class ViewMazeMixin:
                 else:
                     svg = location_callable().render(self.maze)
             svg.preview()
-            console.print("Image was successfully created, check browser to view.", style="green")
+            console.print("Image was successfully created, check browser to view.", style="yellow")
             return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze,
                                                       self.solution, svg or None)
         except Exception as error:
@@ -292,7 +293,7 @@ class SaveImageMixin:
             self.status_update()
             # if svg doesn't exist, pass back to main location
             if self.svg is None:
-                console.print("Must have image to save first.", style="red")
+                console.print("Must have image to save first.", style="yellow")
                 return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze,
                                                           self.solution, self.svg)
             # save svg
@@ -308,16 +309,16 @@ class SaveImageMixin:
                 path = maze_dir.joinpath(f"{input_str}.svg")
                 # if filename already exists take user back to main
                 if path.exists():
-                    console.print("File exists already. Please choose another filename.", style="red")
+                    console.print("File exists already. Please choose another filename.", style="yellow")
                     return self.transfer_maze_and_or_solution(self, self.maze, self.solution, self.svg)
                 # save image to file
                 self.svg.write_file(path)
-                console.print(f"{input_str} was successfully saved!", style="green")
+                console.print(f"{input_str} was successfully saved!", style="yellow")
                 return self.transfer_maze_and_or_solution(
                     self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
             else:
                 # if filename is invalid
-                console.print("Filename is not valid. Please try again.", style="red")
+                console.print("Filename is not valid. Please try again.", style="yellow")
                 return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze,
                                                       self.solution, self.svg)
         except Exception as error:
@@ -327,9 +328,9 @@ class SaveImageMixin:
                 self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
 
 
-class SaveSolutionMixin:
-    def action(self):
-        pass
+# class SaveSolutionMixin:
+#     def action(self):
+#         pass
 
 class DeleteMixin:
     def action(self):
@@ -340,8 +341,8 @@ class DeleteMixin:
             state_list = [item for item in state_list if item[1] is not None]
             # if non exist that return to main
             if len(state_list) == 0:
-                console.print("Nothing to delete.", style="red")
-                self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
+                console.print("Nothing to delete.", style="yellow")
+                return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
             else:
                 # otherwise prompt user which they would like to delete
                 console.print("Type the number for each you would like to delete.", style="green")
@@ -355,7 +356,7 @@ class DeleteMixin:
                     input_conc += state_dict.get(i,"")
                 # cancel and return to main if user chooses
                 if len(input_conc) == 0 or "Cancel" in input_conc:
-                    console.print("Cancelling.", style="white")
+                    console.print("Cancelling.", style="yellow")
                     return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze,
                                                        self.solution, self.svg)
                 # delete user specified attributes
@@ -370,7 +371,7 @@ class DeleteMixin:
                     self.svg = None
                     return_message += ",image"
                 # tell user what was deleted before returning to main
-                console.print(f"Successfully deleted...{return_message.replace(',','', 1)}")
+                console.print(f"Successfully deleted...{return_message.replace(',','', 1)}", style="yellow")
                 return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze,
                                                    self.solution, self.svg)
         except Exception as error:
