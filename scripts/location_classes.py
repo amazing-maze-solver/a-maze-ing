@@ -331,6 +331,54 @@ class SaveSolutionMixin:
     def action(self):
         pass
 
+class DeleteMixin:
+    def action(self):
+        try:
+            self.status_update()
+            # make list of maze, solution, and svg filtering out those that are None
+            state_list = [("Maze", self.maze), ("Solution", self.solution), ("Image", self.svg)]
+            state_list = [item for item in state_list if item[1] is not None]
+            # if non exist that return to main
+            if len(state_list) == 0:
+                console.print("Nothing to delete.", style="red")
+                self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
+            else:
+                # otherwise prompt user which they would like to delete
+                console.print("Type the number for each you would like to delete.", style="green")
+                state_list.append(("Cancel",None))
+                state_dict = {f"{index+1}": value[0] for index, value in enumerate(state_list)}
+                for key, value in state_dict.items():
+                    console.print(f"[{key}] {value}")
+                input_str = Prompt.ask("Choose by numbers")
+                input_conc = ""
+                for i in input_str:
+                    input_conc += state_dict.get(i,"")
+                # cancel and return to main if user chooses
+                if len(input_conc) == 0 or "Cancel" in input_conc:
+                    console.print("Cancelling.", style="white")
+                    return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze,
+                                                       self.solution, self.svg)
+                # delete user specified attributes
+                return_message = ""
+                if "Maze" in input_conc:
+                    self.maze = None
+                    return_message += ",maze"
+                if "Solution" in input_conc:
+                    self.solution = None
+                    return_message += ",solution"
+                if "Image" in input_conc:
+                    self.svg = None
+                    return_message += ",image"
+                # tell user what was deleted before returning to main
+                console.print(f"Successfully deleted...{return_message.replace(',','', 1)}")
+                return self.transfer_maze_and_or_solution(self.locations.get(self.previous_location), self.maze,
+                                                   self.solution, self.svg)
+        except Exception as error:
+            console.print("Something went wrong, please look under the hood and try again.", style="red")
+            console.print(f"{error}", style="red")
+            return self.transfer_maze_and_or_solution(
+                self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
+
 class QuittingMixin:
     def action(self):
         try:

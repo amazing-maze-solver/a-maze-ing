@@ -28,6 +28,7 @@
       "save_maze": "",
       "save_solution": "",
       "save_image": "",
+      "delete": "",
       "quitting": ""
     },
     "value": {
@@ -264,6 +265,23 @@
     "location": "save_solution",
     "mixin": "SaveSolutionMixin",
     "message_pitch": "Save Solution",
+    "message_prompt": "",
+    "locations": {
+      "main": "",
+      "quitting": ""
+    },
+    "previous_location": "main",
+    "next_location": "main",
+    "value": {
+      "module": "",
+      "callable": ""
+    },
+    "parameters": {}
+  },
+    "delete": {
+    "location": "delete",
+    "mixin": "DeleteMixin",
+    "message_pitch": "Delete Maze, Solution, or Image",
     "message_prompt": "",
     "locations": {
       "main": "",

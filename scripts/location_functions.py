@@ -18,7 +18,8 @@ from scripts.location_classes import (
     GoodByeMixin,
     ViewMazeMixin,
     SaveImageMixin,
-    SaveSolutionMixin
+    SaveSolutionMixin,
+    DeleteMixin
 )
 
 sleep_in_seconds = 0.2
@@ -70,6 +71,9 @@ def create_menu_objects(dict_import: dict) -> Location:
             dict_menu[key] = location_new(**value)
         elif value.get("mixin") == "SaveSolutionMixin":
             location_new = type("SaveSolutionLocation", (Location, SaveSolutionMixin), {})
+            dict_menu[key] = location_new(**value)
+        elif value.get("mixin") == "DeleteMixin":
+            location_new = type("DeleteLocation", (Location, DeleteMixin), {})
             dict_menu[key] = location_new(**value)
 
     for menu in dict_menu.values():
