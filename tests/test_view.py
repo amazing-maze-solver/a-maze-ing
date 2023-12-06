@@ -121,6 +121,7 @@ def test_four_borders(create_borders, create_point):
 def create_borders():
     return Border.TOP, Border.RIGHT, Border.BOTTOM, Border.LEFT
 
+
 @pytest.fixture
 def create_point():
     return Point(1, 1)
