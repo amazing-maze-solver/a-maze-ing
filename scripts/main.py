@@ -8,7 +8,7 @@ console = Console()
 def main() -> None:
     location = import_data()
     console.print(location, style="bold green")
-    location = location.transfer_maze_and_or_solution(location.locations.get("main"), location.maze, location.solution)
+    location = location.transfer_maze_and_or_solution(location.locations.get("main"))
 
     while True:
         sleep(2)

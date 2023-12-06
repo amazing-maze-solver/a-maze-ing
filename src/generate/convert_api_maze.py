@@ -110,4 +110,5 @@ def generate_maze(maze_dict, maze_dim) -> Maze:
 # # #+### # #
 # # #+++  # #
 # #####S#####"""
+#     print(string_to_maze(m))
 

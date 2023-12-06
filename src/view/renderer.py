@@ -62,11 +62,9 @@ class SVG:
 
 @dataclass(frozen=True)
 class SVGRenderer:
-    """
-
-    """
-    square_size: int = 100
-    line_width: int = 5
+    """"""
+    square_size: int = 50
+    line_width: int = 20
 
     @property
     def offset(self) -> int:

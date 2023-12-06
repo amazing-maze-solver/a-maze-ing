@@ -1,5 +1,5 @@
 from mazelib import Maze as Maze_API
-from mazelib.generate import BacktrackingGenerator
+from mazelib.generate.BacktrackingGenerator import BacktrackingGenerator
 from mazelib.solve.BacktrackingSolver import BacktrackingSolver
 
 from src.models.maze import Maze
@@ -20,7 +20,7 @@ def create_maze(dim_row=5, dim_col=5, generator=BacktrackingGenerator) -> Maze:
     return maze_new
 
 
-def create_api(dim_row, dim_col, generator):
+def create_api(dim_row=5, dim_col=5, generator=BacktrackingGenerator):
     """
     Input maze dimensions.
     Output string representation of the maze.
@@ -39,3 +39,7 @@ def create_api(dim_row, dim_col, generator):
 
 
 # if __name__ == "__main__":
+#     maze_string = create_api(3,3, BacktrackingGenerator)
+#     print(maze_string)
+#     maze = string_to_maze(maze_string)
+#     print(maze)
