@@ -35,6 +35,15 @@ class Solution:
         """
         return len(self.squares)
 
+    def __eq__(self, other):
+        if isinstance(other, Square):
+            return (other.index == self.index
+                    and other.row == self.row
+                    and other.column == self.column
+                    and other.border == self.border
+                    and other.role == self.role)
+        return False
+
 
 def validate_solution_corridor(solution) -> None:
     p1, p2 = 0, 1

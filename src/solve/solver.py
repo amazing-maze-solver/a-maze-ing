@@ -16,6 +16,7 @@ Node: TypeAlias = Square
 class Edge(NamedTuple):
     node_one: Node
     node_two: Node
+
     @property
     def flip(self):
         return Edge(self.node_two, self.node_one)
@@ -68,6 +69,7 @@ def get_edges(maze: Maze, nodes: set[Node]) -> set[Edge]:
     for source_node in nodes:
         # traverse right
         node = source_node
+
         # start traverse one column right of current
         for x in range(node.column + 1, maze.width):
             # if current node has right border, break

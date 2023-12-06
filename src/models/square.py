@@ -26,7 +26,6 @@ class Square:
 
 
 
-
 # if __name__ == "__main__":
 #     square_test = Square(1, 1, 3, Border.TOP, Role.NONE)
 #     square_test2 = Square(1, 1, 3, Border.TOP, Role.NONE)
