@@ -15,7 +15,10 @@ from scripts.location_classes import (
     LoadMazeMixin,
     SaveMazeMixin,
     QuittingMixin,
-    GoodByeMixin
+    GoodByeMixin,
+    ViewMazeMixin,
+    SaveImageMixin,
+    SaveSolutionMixin
 )
 
 sleep_in_seconds = 0.2
@@ -39,25 +42,34 @@ def create_menu_objects(dict_import: dict) -> Location:
     dict_menu = {}
     for key, value in dict_import.items():
         if value.get("mixin") == "TransitMixin":
-            location_new = type("TransitMenu", (Location, TransitMixin), {})
+            location_new = type("TransitLocation", (Location, TransitMixin), {})
             dict_menu[key] = location_new(**value)
         elif value.get("mixin") == "CreateMazeMixin":
-            location_new = type("CreateMazeMenu", (Location, CreateMazeMixin), {})
+            location_new = type("CreateMazeLocation", (Location, CreateMazeMixin), {})
             dict_menu[key] = location_new(**value)
         elif value.get("mixin") == "SolveMazeMixin":
-            location_new = type("SolveMazeMenu", (Location, SolveMazeMixin), {})
+            location_new = type("SolveMazeLocation", (Location, SolveMazeMixin), {})
             dict_menu[key] = location_new(**value)
         elif value.get("mixin") == "LoadMazeMixin":
-            location_new = type("LoadMazeMenu", (Location, LoadMazeMixin), {})
+            location_new = type("LoadMazeLocation", (Location, LoadMazeMixin), {})
             dict_menu[key] = location_new(**value)
         elif value.get("mixin") == "SaveMazeMixin":
-            location_new = type("SaveMazeMenu", (Location, SaveMazeMixin), {})
+            location_new = type("SaveMazeLocation", (Location, SaveMazeMixin), {})
+            dict_menu[key] = location_new(**value)
+        elif value.get("mixin") == "ViewMazeMixin":
+            location_new = type("ViewMazeLocation", (Location, ViewMazeMixin), {})
             dict_menu[key] = location_new(**value)
         elif value.get("mixin") == "QuittingMixin":
-            location_new = type("QuittingMenu", (Location, QuittingMixin), {})
+            location_new = type("QuittingLocation", (Location, QuittingMixin), {})
             dict_menu[key] = location_new(**value)
         elif value.get("mixin") == "GoodByeMixin":
-            location_new = type("GoodByeMenu", (Location, GoodByeMixin), {})
+            location_new = type("GoodByeLocation", (Location, GoodByeMixin), {})
+            dict_menu[key] = location_new(**value)
+        elif value.get("mixin") == "SaveImageMixin":
+            location_new = type("SaveImageLocation", (Location, SaveImageMixin), {})
+            dict_menu[key] = location_new(**value)
+        elif value.get("mixin") == "SaveSolutionMixin":
+            location_new = type("SaveSolutionLocation", (Location, SaveSolutionMixin), {})
             dict_menu[key] = location_new(**value)
 
     for menu in dict_menu.values():

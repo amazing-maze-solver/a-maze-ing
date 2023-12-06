@@ -24,7 +24,10 @@
       "create_maze": "",
       "load_maze": "",
       "solve_maze": "",
+      "view_maze": "",
       "save_maze": "",
+      "save_solution": "",
+      "save_image": "",
       "quitting": ""
     },
     "value": {
@@ -38,7 +41,7 @@
   "quitting": {
     "location": "quitting",
     "mixin": "QuittingMixin",
-    "message_pitch": "Leave A-maze-ing",
+    "message_pitch": "Leave A-MAZE-ING",
     "message_prompt": "None",
     "locations": {
       "main": "",
@@ -58,7 +61,7 @@
   "create_maze": {
     "location": "create_maze",
     "mixin": "CreateMazeMixin",
-    "message_pitch": "Create a Maze",
+    "message_pitch": "Create Maze",
     "message_prompt": "None",
     "locations": {
       "main": "",
@@ -153,7 +156,7 @@
   "solve_maze": {
     "location": "solve_maze",
     "mixin": "SolveMazeMixin",
-    "message_pitch": "Solve a Maze",
+    "message_pitch": "Solve Maze",
     "message_prompt": "None",
     "locations": {
       "main": "",
@@ -186,7 +189,7 @@
   "save_maze": {
     "location": "save_maze",
     "mixin": "SaveMazeMixin",
-    "message_pitch": "Save a Maze",
+    "message_pitch": "Save Maze",
     "message_prompt": "Input a file name for the maze.",
     "locations": {
       "main": "",
@@ -204,12 +207,66 @@
   "load_maze": {
     "location": "load_maze",
     "mixin": "LoadMazeMixin",
-    "message_pitch": "Upload a Maze",
+    "message_pitch": "Upload Maze",
     "message_prompt": "What file would you like to upload?",
     "locations": {
       "main": "",
       "create_maze": "",
       "save_maze": "",
+      "quitting": ""
+    },
+    "previous_location": "main",
+    "next_location": "main",
+    "value": {
+      "module": "",
+      "callable": ""
+    },
+    "parameters": {}
+  },
+  "view_maze": {
+    "location": "view_maze",
+    "mixin": "ViewMazeMixin",
+    "message_pitch": "View Maze",
+    "message_prompt": "",
+    "locations": {
+      "main": "",
+      "save_maze": "",
+      "save_image": "",
+      "quitting": ""
+    },
+    "previous_location": "main",
+    "next_location": "save_image",
+    "value": {
+      "module": "src.view.renderer",
+      "callable": "SVGRenderer"
+    },
+    "parameters": {}
+  },
+  "save_image": {
+    "location": "save_image",
+    "mixin": "SaveImageMixin",
+    "message_pitch": "Save Image",
+    "message_prompt": "",
+    "locations": {
+      "main": "",
+      "save_maze": "",
+      "quitting": ""
+    },
+    "previous_location": "main",
+    "next_location": "main",
+    "value": {
+      "module": "",
+      "callable": ""
+    },
+    "parameters": {}
+  },
+  "save_solution": {
+    "location": "save_solution",
+    "mixin": "SaveSolutionMixin",
+    "message_pitch": "Save Solution",
+    "message_prompt": "",
+    "locations": {
+      "main": "",
       "quitting": ""
     },
     "previous_location": "main",
