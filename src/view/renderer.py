@@ -2,6 +2,7 @@ import tempfile
 import textwrap
 import webbrowser
 from dataclasses import dataclass
+from pathlib import Path
 
 from src.models.maze import Maze
 from src.models.role import Role
@@ -11,8 +12,10 @@ from src.view.decomposer import decompose
 from src.view.primitives import Point, Polyline, Rect, Text, tag
 
 ROLE_EMOJI = {
-    Role.ENTRANCE: "\N{pedestrian}",
-    Role.EXIT: "\N{chequered flag}",
+    # Role.ENTRANCE: "\N{pedestrian}",
+    # Role.EXIT: "\N{chequered flag}",
+    Role.ENTRANCE: "&#128694;",
+    Role.EXIT: "&#127937;",
     Role.ENEMY: "\N{ghost}",
     Role.REWARD: "\N{white medium star}",
 }
@@ -51,6 +54,10 @@ class SVG:
         with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", suffix=".html", delete=False) as file:
             file.write(self.html_content)
         webbrowser.open(f"file://{file.name}")
+
+    def write_file(self, path: Path) -> None:
+        with path.open(mode="w") as file:
+            file.write(self.xml_content)
 
 
 @dataclass(frozen=True)
@@ -175,34 +182,32 @@ def label(emoji: str, top_left: Point, off_set: int) -> str:
 
 
 
-if __name__ == "__main__":
-    from pathlib import Path
-    from src.models.border import Border
-
-    maze = Maze(
-        squares=(
-            Square(0, 0, 0, Border.TOP | Border.LEFT),
-            Square(1, 0, 1, Border.TOP | Border.RIGHT),
-            Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
-            Square(3, 0, 3, Border.TOP | Border.LEFT | Border.RIGHT),
-            Square(4, 1, 0, Border.BOTTOM | Border.LEFT | Border.RIGHT),
-            Square(5, 1, 1, Border.LEFT | Border.RIGHT),
-            Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
-            Square(7, 1, 3, Border.RIGHT),
-            Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
-            Square(9, 2, 1, Border.BOTTOM),
-            Square(10, 2, 2, Border.TOP | Border.BOTTOM),
-            Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
-        )
-    )
-
-    solution_f = Solution(squares=tuple(maze[i] for i in (8, 11, 7, 6, 2)))
-    solution_t = Solution(squares=tuple(maze[i] for i in (8, 9, 10, 11, 7, 6, 2)))
-    svg = SVGRenderer().render(maze, solution_f)
-    svg.preview()
-
-    # with Path("maze.svg").open(mode="w", encoding="utf-8") as file:
-    #     file.write(svg.xml_content)
+# if __name__ == "__main__":
+#     from pathlib import Path
+#     from src.models.border import Border
+#
+#     maze = Maze(
+#         squares=(
+#             Square(0, 0, 0, Border.TOP | Border.LEFT),
+#             Square(1, 0, 1, Border.TOP | Border.RIGHT),
+#             Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
+#             Square(3, 0, 3, Border.TOP | Border.LEFT | Border.RIGHT),
+#             Square(4, 1, 0, Border.BOTTOM | Border.LEFT | Border.RIGHT),
+#             Square(5, 1, 1, Border.LEFT | Border.RIGHT),
+#             Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
+#             Square(7, 1, 3, Border.RIGHT),
+#             Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
+#             Square(9, 2, 1, Border.BOTTOM),
+#             Square(10, 2, 2, Border.TOP | Border.BOTTOM),
+#             Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
+#         )
+#     )
+#
+#     solution_t = Solution(squares=tuple(maze[i] for i in (8, 9, 10, 11, 7, 6, 2)))
+#     svg = SVGRenderer().render(maze, solution_t)
+#
+#     with open('output.svg', 'w') as f:
+#         f.write(svg.xml_content)
 
 
 

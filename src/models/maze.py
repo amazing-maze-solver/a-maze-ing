@@ -5,6 +5,8 @@ from typing import Iterator
 
 from src.models.role import Role
 from src.models.square import Square
+from src.models.solution import Solution
+# from src.solve.solver import solve
 from src.persistence.serializer import write_binary_maze_file, load_binary_maze_file
 
 
@@ -83,6 +85,14 @@ class Maze:
         :return:
         """
         return Maze(tuple(load_binary_maze_file(path))) # TODO: switch Maze to cls
+
+    # def create_solution(self) -> Solution:
+    #     """
+    #     Create and return a solution form the this maze.
+    #     :return: Solution
+    #     """
+    #     return solve(self)
+
 
 def validate_maze_entrance(maze: Maze) -> None:
     """
