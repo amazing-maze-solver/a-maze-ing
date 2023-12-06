@@ -14,9 +14,15 @@ class Square:
     border: Border
     role: Role = Role.NONE
 
-    def __eq__(self,other):
-        if isinstance(other,Square):
-            return other.index == self.index and other.row == self.row and other.column == self.column and other.border == self.border and other.role == self.role
+    def __eq__(self, other):
+        if isinstance(other, Square):
+            return all([other.index == self.index,
+                    other.row == self.row,
+                    other.column == self.column,
+                    other.border == self.border,
+                    other.role == self.role])
+
+        return False
 
 
 

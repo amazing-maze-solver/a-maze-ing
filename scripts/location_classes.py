@@ -287,6 +287,7 @@ class ViewMazeMixin:
             return self.transfer_maze_and_or_solution(
                 self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
 
+
 class SaveImageMixin:
     def action(self):
         try:
@@ -328,6 +329,7 @@ class SaveImageMixin:
                 self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
 
 
+# TODO: stretch goal
 # class SaveSolutionMixin:
 #     def action(self):
 #         pass
@@ -380,6 +382,7 @@ class DeleteMixin:
             return self.transfer_maze_and_or_solution(
                 self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
 
+
 class QuittingMixin:
     def action(self):
         try:
@@ -412,7 +415,6 @@ class GoodByeMixin:
         return self
 
 
-
 def is_valid_filename(filename: str) -> bool:
     try:
         Path(filename)
@@ -424,13 +426,4 @@ def is_valid_filename(filename: str) -> bool:
         return False
 
 
-
 # if __name__=="__main__":
-#     from src.generate.create_maze import create_maze
-#     from src.view.renderer import SVGRenderer
-#     from mazelib.generate.Wilsons import Wilsons
-#     maze = create_maze(4,4, Wilsons)
-#     svg = SVGRenderer().render(maze)
-#     svg.preview()
-
-
