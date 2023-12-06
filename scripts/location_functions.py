@@ -1,12 +1,6 @@
 import time
 from pathlib import Path
 import json
-import re
-import argparse
-
-from src.solve.solver import solve
-from src.models.maze import Maze
-from src.view.renderer import SVGRenderer
 from scripts.location_classes import (
     Location,
     TransitMixin,
@@ -18,19 +12,27 @@ from scripts.location_classes import (
     GoodByeMixin,
     ViewMazeMixin,
     SaveImageMixin,
-    SaveSolutionMixin,
+    # SaveSolutionMixin,
     DeleteMixin
 )
 
 sleep_in_seconds = 0.2
 
 def sleep(multiple):
-    """"""
+    """
+    Causes a pause in the menu
+    :param multiple:
+    :return:
+    """
     time.sleep(sleep_in_seconds*multiple)
 
 
 def import_data() -> Location:
-    """"""
+    """
+    Import json file of Location objects and passes them to create_menu_objects.
+    Returns Introduction Location instance.
+    :return:
+    """
     cwd = Path.cwd()
     path_messages = cwd.joinpath("resources", "text", "location_objects.json")
     with path_messages.open("r") as file:
@@ -40,6 +42,12 @@ def import_data() -> Location:
 
 
 def create_menu_objects(dict_import: dict) -> Location:
+    """
+    Take a dictionary of location objects and create graph of location instances.
+    Return Intro Location instance
+    :param dict_import:
+    :return:
+    """
     dict_menu = {}
     for key, value in dict_import.items():
         if value.get("mixin") == "TransitMixin":
@@ -69,9 +77,9 @@ def create_menu_objects(dict_import: dict) -> Location:
         elif value.get("mixin") == "SaveImageMixin":
             location_new = type("SaveImageLocation", (Location, SaveImageMixin), {})
             dict_menu[key] = location_new(**value)
-        elif value.get("mixin") == "SaveSolutionMixin":
-            location_new = type("SaveSolutionLocation", (Location, SaveSolutionMixin), {})
-            dict_menu[key] = location_new(**value)
+        # elif value.get("mixin") == "SaveSolutionMixin":
+        #     location_new = type("SaveSolutionLocation", (Location, SaveSolutionMixin), {})
+        #     dict_menu[key] = location_new(**value)
         elif value.get("mixin") == "DeleteMixin":
             location_new = type("DeleteLocation", (Location, DeleteMixin), {})
             dict_menu[key] = location_new(**value)
@@ -83,23 +91,6 @@ def create_menu_objects(dict_import: dict) -> Location:
         menu.locations = list_locations
 
     return dict_menu.get("intro")
-
-# TODO: add solve functionality to menu
-def solve_maze() -> None:
-    maze = Maze.read_file(parse_path())
-    solutions = solve(maze)
-    if solutions:
-        renderer = SVGRenderer()
-        for solution in solutions:
-            renderer.render(maze, solution).preview()
-    else:
-        print("No solution found")
-
-
-def parse_path() -> Path:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("path", type=Path)
-    return parser.parse_args().path
 
 
 # if __name__=="__main__":
