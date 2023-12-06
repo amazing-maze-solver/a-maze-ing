@@ -62,17 +62,23 @@ class SVG:
 
 @dataclass(frozen=True)
 class SVGRenderer:
-    """"""
+    """
+
+    """
     square_size: int = 100
     line_width: int = 5
 
     @property
     def offset(self) -> int:
-        """"""
+        """
+
+        """
         return self.line_width // 2
 
     def render(self, maze: Maze, solution: Solution | None = None) -> SVG:
-        """"""
+        """
+
+        """
         margin = 2 * (self.offset + self.line_width)
         width = margin + maze.width * self.square_size
         height = margin + maze.height * self.square_size
@@ -87,7 +93,9 @@ class SVGRenderer:
                 viewBox=f"0 0 {width} {height}",))
 
     def _get_body(self, maze: Maze, solution: Solution | None) -> str:
-        """"""
+        """
+
+        """
         return "".join([
             background(),
             *map(self._draw_square, maze),
@@ -142,7 +150,9 @@ class SVGRenderer:
 
 
 def background():
-    """"""
+    """
+
+    """
     return Rect().draw(width="100%", height="100%", fill="white")
 
 
