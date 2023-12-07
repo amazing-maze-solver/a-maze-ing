@@ -17,7 +17,7 @@ from src.generate.create_maze import create_maze, create_api
 ################################################################################
 # create_maze.py
 
-@pytest.mark.skip()
+# @pytest.mark.skip()
 def test_create_api(create_maze_api):
     maze_list = create_maze_api.split("\n")
     char_bool = True
@@ -107,8 +107,8 @@ def create_maze_generate():
                 Square(8, 2, 2, 10, 0)))
 
 # TODO: remove after finishing everything just so you don't make excessive requests to the api
-# @pytest.fixture
-# def create_maze_api():
-#     return create_api()
+@pytest.fixture
+def create_maze_api():
+    return create_api()
 
 
