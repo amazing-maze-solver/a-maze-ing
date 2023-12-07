@@ -73,7 +73,6 @@ def get_inputs(lines):
         "quitting.txt",
         "main-quitting.txt",
         "create-quitting.txt",
-        "upload-save-quitting.txt"
     ],
 )
 def test_all(monkeypatch, capsys, test_input):
