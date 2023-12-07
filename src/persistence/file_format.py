@@ -4,7 +4,6 @@ import struct
 from dataclasses import dataclass
 from typing import BinaryIO
 
-# TODO: change to "AMAZEING"
 MAGIC_NUMBER: bytes = b"MAZE"
 
 

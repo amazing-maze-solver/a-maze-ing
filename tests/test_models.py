@@ -5,7 +5,7 @@ from collections.abc import Iterable
 from src.models.border import Border
 from src.models.maze import Maze
 from src.models.role import Role
-from src.models.solution import Solution
+from src.models.solution import Solution, validate_solution_corridor
 from src.models.square import Square
 
 
@@ -158,7 +158,7 @@ def test_solution_creation():
 
 # @pytest.mark.skip("TODO")
 def test_solution_methods():
-    solution = Solution(
+    solution0 = Solution(
         squares = (
             Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
             Square(9, 2, 1, Border.BOTTOM),
@@ -169,9 +169,38 @@ def test_solution_methods():
             Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
         )
     )
-    assert len(solution) == 7
-    assert isinstance(solution, Iterable)
-    assert solution[3].index == 11
+    solution1 = Solution(
+        squares=(
+            Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
+            Square(9, 2, 1, Border.BOTTOM),
+            Square(10, 2, 2, Border.TOP | Border.BOTTOM),
+            Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
+            Square(7, 1, 3, Border.RIGHT),
+            Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
+            Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
+        )
+    )
+    assert len(solution0) == 7
+    assert isinstance(solution0, Iterable)
+    assert solution0[3].index == 11
+    assert solution0 == solution1
 
-# TODO: When we have functionality to create solution from maze, write unit test here to compare with solution
+# @ pytest.mark.skip("TODO")
+def test_validate_solution_corridor_fail():
+    solution = Solution(
+        squares=(
+            Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
+            Square(9, 2, 1, Border.BOTTOM),
+            Square(10, 2, 2, Border.TOP | Border.BOTTOM),
+            Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
+            Square(7, 0, 0, Border.RIGHT),
+            Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
+            Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
+        )
+    )
+
+    with pytest.raises(ValueError):
+        validate_solution_corridor(solution)
+
+
 

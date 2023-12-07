@@ -7,16 +7,18 @@ console = Console()
 
 def main() -> None:
     location = import_data()
-    console.print(location, style="bold green")
-    location = location.transfer_maze_and_or_solution(location.locations.get("main"))
+    # console.print(location, style="bold green")
+    # location = location.transfer_maze_and_or_solution(location.locations.get("main"))
 
     while True:
-        sleep(2)
         print("")
         if location.location == "good_bye":
+            print("\n" * 70)
             location.action()
             break
+        print("\n"*70)
         location = location.action()
+        sleep(5)
 
 
 if __name__ == "__main__":

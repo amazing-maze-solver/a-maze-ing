@@ -2,10 +2,11 @@
   "intro": {
     "location": "intro",
     "mixin": "TransitMixin",
-    "message_pitch": "Hello! Welcome to A-MAZE-ING!\nWe make the mazes and solve them so you don't have too! ;)",
-    "message_prompt": "",
+    "message_pitch": "",
+    "message_prompt": "Hello! Welcome to A-MAZE-ING!\nWe make the mazes and solve them so you don't have too! ;)\nWhat would you like to do?",
     "locations": {
-      "main": ""
+      "main": "",
+      "quitting": ""
     },
     "value": {
       "module": "",
@@ -42,7 +43,7 @@
     "location": "quitting",
     "mixin": "QuittingMixin",
     "message_pitch": "Leave A-MAZE-ING",
-    "message_prompt": "None",
+    "message_prompt": "Are you sure?",
     "locations": {
       "main": "",
       "save_maze": "",
@@ -76,7 +77,7 @@
     },
     "parameters": {
       "Choose a Width(3-50 squares)": {
-        "kwarg": "dim_row",
+        "kwarg": "dim_col",
         "type": "int",
         "value": {
           "lower": "3",
@@ -85,7 +86,7 @@
         }
       },
       "Choose a Height(3-50 squares)": {
-        "kwarg": "dim_col",
+        "kwarg": "dim_row",
         "type": "int",
         "value": {
           "lower": "3",
@@ -133,7 +134,7 @@
             "module": "mazelib.generate.Prims",
             "callable": "Prims"
           },
-          "Recursive Backtracking": {
+          "Recursive Backtracking Algorithm": {
             "module": "mazelib.generate.BacktrackingGenerator",
             "callable": "BacktrackingGenerator"
           },
@@ -260,7 +261,6 @@
     },
     "parameters": {}
   },
-
   "delete": {
     "location": "delete",
     "mixin": "DeleteMixin",

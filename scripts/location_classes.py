@@ -74,7 +74,7 @@ class Location:
         maze_exists = "\n[√] maze" if self.maze is not None else ""
         solution_exists = "\n[√] solution" if self.solution is not None else ""
         svg_exists = "\n[√] image" if self.svg is not None else ""
-        console.print(f"Location: {location_str}{maze_exists}{solution_exists}{svg_exists}", style="white")
+        console.print(f"{location_str}{maze_exists}{solution_exists}{svg_exists}\n", style="white")
 
     def prompt_for_path(self) -> Path:
         console.print(self.message_prompt, style="green")
@@ -256,7 +256,7 @@ class ViewMazeMixin:
                 input_str = self.what_to_do_with_current_svg()
                 if input_str == "1":
                     return self.transfer_maze_and_or_solution(
-                        self.locations.get("save_image"), self.maze, self.solution, self.svg)
+                        self.locations.get("save_image", "main"), self.maze, self.solution, self.svg)
             # if maze doesn't exist, pass back to main location
             if self.maze is None:
                 console.print("Must have maze to save first.", style="yellow")
@@ -387,6 +387,7 @@ class QuittingMixin:
                 # if cancelled
                 if input_str == "1":
                     return self.transfer_maze_and_or_solution(self.locations.get("save_maze"), self.maze, self.solution, self.svg)
+            console.print(self.message_prompt, style="green")
             input_dict = {}
             options = []
             index = 1

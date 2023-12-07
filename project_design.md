@@ -4,7 +4,6 @@
 ![wireframe](resources/images/wireframe.png)
 
 ## User Stories:
- - [ ] Update user stories after midterm finished and delete this TODO
 1. Title: 
     * User Story: As a user, I want to have a solution to this maze, so that I can solve it.
     * Feature Tasks: 

@@ -39,7 +39,7 @@ class Primitive(Protocol):
         """
         Convert data into svg string.
         """
-        ... # TODO: change to pass
+        ...
 
 
 class Point(NamedTuple):

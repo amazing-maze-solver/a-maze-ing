@@ -17,7 +17,7 @@ Jacob Bassett
   * Start each meeting venting struggles.
 * What will you do if one team member takes over the project?
   * Assign clean areas during meetings.
-* How will you accomodate different skill levels?
+* How will you accommodate different skill levels?
   * "Not everyone has the right to write every line of code, but everyone has the right to have everyline of code explained to them."
 * How will you raise concerns to members who are not adequately contributing?
   * NA
@@ -45,7 +45,7 @@ Jacob Bassett
   * Use a project manager. Jira and/or Trello
  
 ## Presentation Deck
-[link](https://docs.google.com/presentation/d/11UY3ImBp9r0RJ73rItUch1eD2Ecan-k7w_Wo-GaoZ0U/edit?usp=sharing)
+[link](https://docs.google.com/presentation/d/1PNVABO1b_o4eQ2zUE3RjELq0qux4Bm2yaHkFW6v-bNQ/edit?usp=sharing)
   
 ## Git Process
 * What components of your projects will live on GitHub? 
