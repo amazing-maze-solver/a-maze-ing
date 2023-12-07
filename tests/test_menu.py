@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 from scripts.location_functions import import_data, create_menu_objects
 from scripts.location_classes import is_valid_filename
-# from scripts.main import mainpyt
+from scripts.main import main
 
 ##################################################################################
 # location_functions.py
@@ -41,11 +41,11 @@ def test_create_menu_objects(create_path):
 
 ###################################################################################
 # location_classes.py
-# def compare_output_and_expected(captured_output, lines):
-#     captured_output = captured_output.split("\n")
-#
-#     for actual_line, expected_line in zip(captured_output, lines):
-#         assert actual_line.strip() == expected_line.strip()
+def compare_output_and_expected(captured_output, lines):
+    captured_output = captured_output.split("\n")
+
+    for actual_line, expected_line in zip(captured_output, lines):
+        assert actual_line.strip() == expected_line.strip()
 
 ######################################################################################
 # fixtures
@@ -56,37 +56,40 @@ def create_path():
     return path
 
 
-# def get_inputs(lines):
-#     elements = []
-#     for line in lines:
-#         if ":" in line:
-#             index = line.find(":")
-#             element = line[index:].strip()
-#             elements.append(element)
-#     return elements
-#
-#
-# @pytest.mark.parametrize(
-#     "test_input",
-#     [
-#         "intro.txt",
-#     ],
-# )
-# def test_all(monkeypatch, capsys, test_input):
-#     path = Path.cwd().joinpath("tests", "sims", test_input)
-#     with path.open("r") as file:
-#         lines = file.readlines()
-#         inputs = get_inputs(lines)
-#
-#     def mock_input(prompt, choices=None, show_choices=None):
-#         response = inputs.pop(0)
-#         print(prompt, response, sep="")
-#         return response
-#
-#     monkeypatch.setattr("rich.prompt.Prompt.ask", mock_input)
-#
-#     with pytest.raises(SystemExit):
-#         main()
-#
-#     captured_output = capsys.readouterr().out
-#     compare_output_and_expected(captured_output, lines)
+def get_inputs(lines):
+    elements = []
+    for line in lines:
+        if ":" in line:
+            index = line.find(":")+1
+            element = line[index:].strip()
+            element = element
+            elements.append(element)
+    return elements
+
+
+@pytest.mark.parametrize(
+    "test_input",
+    [
+        "quitting.txt",
+        "main-quitting.txt",
+        "create-quitting.txt",
+        "upload-save-quitting.txt"
+    ],
+)
+def test_all(monkeypatch, capsys, test_input):
+    path = Path.cwd().joinpath("tests", "sims", test_input)
+    with path.open("r") as file:
+        lines = file.readlines()
+        inputs = get_inputs(lines)
+
+    def mock_input(prompt, choices=None, show_choices=None):
+        response = inputs.pop(0)
+        print(prompt, response, sep=": ")
+        return response
+
+    monkeypatch.setattr("rich.prompt.Prompt.ask", mock_input)
+
+    main()
+
+    captured_output = capsys.readouterr().out
+    compare_output_and_expected(captured_output, lines)

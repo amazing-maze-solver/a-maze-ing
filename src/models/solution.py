@@ -36,13 +36,13 @@ class Solution:
         return len(self.squares)
 
     def __eq__(self, other):
-        if isinstance(other, Square):
-            return (other.index == self.index
-                    and other.row == self.row
-                    and other.column == self.column
-                    and other.border == self.border
-                    and other.role == self.role)
-        return False
+        if isinstance(other, Solution):
+            for square_other, square_self in zip(other.squares, self.squares):
+                if square_other != square_self:
+                    return False
+            return True
+        else:
+            return False
 
 
 def validate_solution_corridor(solution) -> None:
@@ -57,7 +57,7 @@ def validate_solution_corridor(solution) -> None:
             p2 += 1
             continue
         else:
-            assert False, "Solution must have a corridor from start to exit square."
+            raise ValueError("Solution must have a corridor from start to exit square.")
 
 
 # if __name__ == "__main__":
