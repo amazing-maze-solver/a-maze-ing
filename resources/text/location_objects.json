@@ -246,7 +246,7 @@
     "location": "save_image",
     "mixin": "SaveImageMixin",
     "message_pitch": "Save Image",
-    "message_prompt": "",
+    "message_prompt": "Input a file name for the image.",
     "locations": {
       "main": "",
       "save_maze": "",

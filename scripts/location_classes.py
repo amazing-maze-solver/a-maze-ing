@@ -329,11 +329,6 @@ class SaveImageMixin:
                 self.locations.get(self.previous_location), self.maze, self.solution, self.svg)
 
 
-# TODO: stretch goal
-# class SaveSolutionMixin:
-#     def action(self):
-#         pass
-
 class DeleteMixin:
     def action(self):
         try:
