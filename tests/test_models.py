@@ -173,5 +173,4 @@ def test_solution_methods():
     assert isinstance(solution, Iterable)
     assert solution[3].index == 11
 
-# TODO: When we have functionality to create solution from maze, write unit test here to compare with solution
 

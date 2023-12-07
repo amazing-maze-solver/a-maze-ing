@@ -84,7 +84,7 @@ class Maze:
         :param path:
         :return:
         """
-        return Maze(tuple(load_binary_maze_file(path))) # TODO: switch Maze to cls
+        return Maze(tuple(load_binary_maze_file(path)))
 
 
 def validate_maze_entrance(maze: Maze) -> None:

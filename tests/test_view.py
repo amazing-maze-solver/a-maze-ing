@@ -136,12 +136,12 @@ def test_html_content():
                 '<title>SVG Preview</title>\n</head>\n<body>\ntest content\n</body>\n</html>')
     assert actual == expected
 
-
-@pytest.mark.skip()
-def test_preview():
-    actual = SVG("test content").preview()
-    expected = None
-    assert actual == expected
+# TODO: if you want to test the preview functionality
+# @pytest.mark.skip()
+# def test_preview():
+#     actual = SVG("test content").preview()
+#     expected = None
+#     assert actual == expected
 
 
 # @pytest.mark.skip()
