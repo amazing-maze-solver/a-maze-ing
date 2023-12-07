@@ -39,7 +39,3 @@ def create_api(dim_row=5, dim_col=5, generator=BacktrackingGenerator):
 
 
 # if __name__ == "__main__":
-#     maze_string = create_api(3,3, BacktrackingGenerator)
-#     print(maze_string)
-#     maze = string_to_maze(maze_string)
-#     print(maze)

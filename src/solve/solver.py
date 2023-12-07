@@ -55,11 +55,6 @@ def get_nodes(maze: Maze) -> set[Node]:
             continue
         if square.role is not Role.NONE:
             nodes.add(square)
-        # if (
-        #         square.border.intersection
-        #         or square.border.dead_end
-        #         or square.border.corner
-        # ):
         nodes.add(square)
     return nodes
 
@@ -99,28 +94,4 @@ def get_edges(maze: Maze, nodes: set[Node]) -> set[Edge]:
     return edges
 
 
-if __name__ == "__main__":
-    from src.models.border import Border
-    maze = Maze(
-        squares=(
-            Square(0, 0, 0, Border.TOP | Border.LEFT),
-            Square(1, 0, 1, Border.TOP | Border.RIGHT),
-            Square(2, 0, 2, Border.LEFT | Border.RIGHT, Role.EXIT),
-            Square(3, 0, 3, Border.TOP | Border.LEFT | Border.RIGHT),
-            Square(4, 1, 0, Border.BOTTOM | Border.LEFT | Border.RIGHT),
-            Square(5, 1, 1, Border.LEFT | Border.RIGHT),
-            Square(6, 1, 2, Border.BOTTOM | Border.LEFT),
-            Square(7, 1, 3, Border.RIGHT),
-            Square(8, 2, 0, Border.TOP | Border.LEFT, Role.ENTRANCE),
-            Square(9, 2, 1, Border.BOTTOM),
-            Square(10, 2, 2, Border.TOP | Border.BOTTOM),
-            Square(11, 2, 3, Border.BOTTOM | Border.RIGHT),
-        )
-    )
-
-    # solution_f = Solution(squares=tuple(maze[i] for i in (8, 11, 7, 6, 2)))
-    solution_t = Solution(squares=tuple(maze[i] for i in (8, 9, 10, 11, 7, 6, 2)))
-    # print(solution_t)
-    solution_new = solve(maze)
-    print("solution_t", [square.index for square in solution_t])
-    print("\nsolution new", [square.index for square in solution_new])
+# if __name__ == "__main__":

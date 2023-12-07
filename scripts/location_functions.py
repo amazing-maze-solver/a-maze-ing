@@ -77,9 +77,6 @@ def create_menu_objects(dict_import: dict) -> Location:
         elif value.get("mixin") == "SaveImageMixin":
             location_new = type("SaveImageLocation", (Location, SaveImageMixin), {})
             dict_menu[key] = location_new(**value)
-        # elif value.get("mixin") == "SaveSolutionMixin":
-        #     location_new = type("SaveSolutionLocation", (Location, SaveSolutionMixin), {})
-        #     dict_menu[key] = location_new(**value)
         elif value.get("mixin") == "DeleteMixin":
             location_new = type("DeleteLocation", (Location, DeleteMixin), {})
             dict_menu[key] = location_new(**value)

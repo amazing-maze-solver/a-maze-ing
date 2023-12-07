@@ -146,7 +146,7 @@ def test_preview():
 
 # @pytest.mark.skip()
 def test_write_file():
-    path = Path.cwd().joinpath("resources/test_file")
+    path = Path.cwd().joinpath("resources","test_file")
     SVG("test content").write_file(path)
     if not path.exists():
         assert False, "SVG write_file method broken."
