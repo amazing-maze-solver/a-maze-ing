@@ -16,6 +16,7 @@ def main() -> None:
         if location.location == "good_bye":
             location.action()
             break
+        print("\n"*50)
         location = location.action()
 
 

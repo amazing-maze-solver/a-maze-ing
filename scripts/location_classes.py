@@ -74,7 +74,7 @@ class Location:
         maze_exists = "\n[√] maze" if self.maze is not None else ""
         solution_exists = "\n[√] solution" if self.solution is not None else ""
         svg_exists = "\n[√] image" if self.svg is not None else ""
-        console.print(f"Location: {location_str}{maze_exists}{solution_exists}{svg_exists}", style="white")
+        console.print(f"Location: {location_str}{maze_exists}{solution_exists}{svg_exists}\n\n", style="white")
 
     def prompt_for_path(self) -> Path:
         console.print(self.message_prompt, style="green")

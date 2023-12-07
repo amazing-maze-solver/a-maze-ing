@@ -76,7 +76,7 @@
     },
     "parameters": {
       "Choose a Width(3-50 squares)": {
-        "kwarg": "dim_row",
+        "kwarg": "dim_col",
         "type": "int",
         "value": {
           "lower": "3",
@@ -85,7 +85,7 @@
         }
       },
       "Choose a Height(3-50 squares)": {
-        "kwarg": "dim_col",
+        "kwarg": "dim_row",
         "type": "int",
         "value": {
           "lower": "3",
@@ -133,7 +133,7 @@
             "module": "mazelib.generate.Prims",
             "callable": "Prims"
           },
-          "Recursive Backtracking": {
+          "Recursive Backtracking Algorithm": {
             "module": "mazelib.generate.BacktrackingGenerator",
             "callable": "BacktrackingGenerator"
           },
@@ -260,7 +260,6 @@
     },
     "parameters": {}
   },
-
   "delete": {
     "location": "delete",
     "mixin": "DeleteMixin",
