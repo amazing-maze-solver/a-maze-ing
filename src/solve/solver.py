@@ -37,7 +37,9 @@ def make_graph(maze: Maze) -> nx.DiGraph:
     nodes = get_nodes(maze)
     directed_edges = get_directed_edges(maze, nodes)
     edges_with_distance = [(edge.node_one, edge.node_two, {"weight": edge.distance}) for edge in directed_edges]
-    graph = nx.DiGraph(edges_with_distance)
+    graph = nx.DiGraph()
+    graph.add_nodes_from(nodes)
+    graph.add_edges_from(edges_with_distance)
     return graph
 
 

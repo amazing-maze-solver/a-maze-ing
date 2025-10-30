@@ -1,6 +1,7 @@
-# a-maze-ing: 
+# a-maze-ing
 
-## README Contents:
+## README Contents
+
 1. Description
 1. Authors
 1. Installation
@@ -17,77 +18,76 @@
 1. [Project Design](project_design.md)
 1. [Requirements](requirements.md)
 
-## Description:
+## Description
 
 This is a command-line interface to create and solve mazes. A client will be able to generate new mazes and save them as binary files. The client will also be able to generate a solution for a maze and save its image.
 
-## Authors:
+## Authors
+
 [KP Gomez](https://github.com/kpgomez)
 
 [Jacob Bassett](https://github.com/jdabassett)
 
-## Installation:
+## Installation
 
-Run the following command in the terminal to clone this repository to your local environment.
+Run the following commands to clone and set up a local environment.
+
 ```bash
 git clone https://github.com/amazing-maze-solver/a-maze-ing.git
 cd a-maze-ing
 python3 -m venv .venv
-# source .venv/bin/activate for macOS
-# .venv\Scripts\activate for windows
+# macOS/Linux: source .venv/bin/activate
+# Windows (PowerShell): .venv\Scripts\Activate.ps1
 ```
 
-## Requirements:
+## Requirements
 
-Run the following command in the terminal to install all requirements.
+This project uses a locked dependency set in `requirements.txt` (with hashes) compiled from `requirements.in`.
+
+Fast start (no extra tooling):
 
 ```bash
 pip install -r requirements.txt
 ```
-These are the required software you will be installing into your virtual environment.
- * cairocffi==1.6.1
- * CairoSVG==2.7.1
- * cffi==1.16.0
- * coverage==7.3.2
- * cssselect2==0.7.0
- * Cython==0.29.32
- * defusedxml==0.7.1
- * exceptiongroup==1.2.0
- * iniconfig==2.0.0
- * markdown-it-py==3.0.0
- * mazelib==0.9.14
- * mdurl==0.1.2
- * networkx==3.2.1
- * numpy==1.23.4
- * packaging==23.2
- * Pillow==10.1.0
- * pluggy==1.3.0
- * pycparser==2.21
- * Pygments==2.17.2
- * pytest==7.4.3
- * pytest-cov==4.1.0
- * rich==13.7.0
- * tinycss2==1.2.1
- * webencodings==0.5.1
 
-## Tests:
+Reproducible installs (recommended, requires pip-tools):
+
+```bash
+pip install "pip==24.0" "setuptools<72" wheel
+pip install pip-tools
+pip-sync requirements.txt
+```
+
+Updating dependencies (maintainers):
+
+```bash
+# Edit top-level deps in requirements.in
+.venv/bin/pip-compile --generate-hashes -o requirements.txt requirements.in
+.venv/bin/pip-sync requirements.txt
+```
+
+## Tests
 
 Run the following command in the terminal to run all tests.
+
 ```bash
 pytest --cov
 ```
-## Usage:
+
+## Usage
 
 Run the following command in the terminal to start the application.
+
 ```bash
 python3 -m scripts.main
 ```
 
-## File Structure:
+## File Structure
 
 ```bash
 .
 ├── README.md
+├── requirements.in
 ├── requirements.txt
 ├── scripts
 │   ├── __init__.py
@@ -99,9 +99,6 @@ python3 -m scripts.main
 │   │   ├── __init__.py
 │   │   ├── convert_api_maze.py
 │   │   └── create_maze.py
-│   ├── graphs
-│   │   ├── __init__.py
-│   │   └── solver.py
 │   ├── models
 │   │   ├── __init__.py
 │   │   ├── border.py
@@ -131,8 +128,8 @@ python3 -m scripts.main
     └── test_view.py
 ```
 
-## Domain Model:
+## Domain Model
 
-This is the basic domain model from the tutorial. 
+This is the basic domain model from the tutorial.
 We will be recreating a version of this and adding new features like generating new mazes and converting the solution into a movie.
 ![basic_domain_model](resources/images/domain-model.png)
